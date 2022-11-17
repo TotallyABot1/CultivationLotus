@@ -1,5 +1,4 @@
-use std::process::exit;
-use std::process::Command;
+use std::process::{exit, Command};
 
 #[cfg(windows)]
 pub fn reopen_as_admin() {

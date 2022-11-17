@@ -56,9 +56,7 @@ export async function setConfigOption<K extends keyof Configuration>(key: K, val
 
 export async function getConfigOption<K extends keyof Configuration>(key: K): Promise<Configuration[K]> {
   const config = await getConfig()
-  const defaults = defaultConfig
-
-  return config[key] === null || config[key] === undefined ? defaults[key] : config[key]
+  return config[key] === null || config[key] === undefined ? defaultConfig[key] : config[key]
 }
 
 export async function getConfig() {
@@ -87,18 +85,18 @@ async function readConfigFile() {
   const local = await dataDir()
 
   if (!configFilePath) {
-    configFilePath = local + 'lotusCultivation/configuration_lotus.json'
+    configFilePath = local + 'LotusCultivation/configuration_lotus.json'
   }
 
   // Ensure Cultivation dir exists
   const dirs = await fs.readDir(local)
 
-  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'lotusCultivation')) {
+  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'LotusCultivation')) {
     // Create dir
-    await fs.createDir(local + 'lotusCultivation').catch((e) => console.log(e))
+    await fs.createDir(local + 'LotusCultivation').catch((e) => console.log(e))
   }
 
-  const dataFiles = await fs.readDir(local + 'lotusCultivation')
+  const dataFiles = await fs.readDir(local + 'LotusCultivation')
 
   // Ensure config exists
   if (!dataFiles.find((fileOrDir) => fileOrDir?.name === 'configuration_lotus.json')) {

@@ -7,7 +7,8 @@ import MainProgressBar from './components/common/MainProgressBar'
 import Options from './components/menu/Options'
 import MiniDialog from './components/MiniDialog'
 import DownloadList from './components/common/DownloadList'
-import NewsSection from './components/news/NewsSection'
+//Disabled News. Enable again to display
+// import NewsSection from './components/news/NewsSection'
 import Game from './components/menu/Game'
 import RightBar from './components/RightBar'
 
@@ -86,7 +87,7 @@ export class Main extends React.Component<IProps, IState> {
     if (!cert_generated) {
       // Generate the certificate
       await invoke('generate_ca_files', {
-        path: (await dataDir()) + 'lotusCultivation',
+        path: (await dataDir()) + 'LotusCultivation',
       })
 
       await setConfigOption('cert_generated', true)

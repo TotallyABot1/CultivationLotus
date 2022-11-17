@@ -26,7 +26,9 @@ export default class Tr extends React.Component<IProps, IState> {
     let language = await getConfigOption('language')
 
     // Get translation file
-    if (!language) language = 'en'
+    if (!language) {
+      language = 'en'
+    }
 
     const response = await invoke('get_lang', { lang: language })
     const default_resp = await invoke('get_lang', { lang: 'en' })

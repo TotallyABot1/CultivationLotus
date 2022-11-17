@@ -2,14 +2,14 @@ use crate::system_helpers::*;
 use std::path::{Path, PathBuf};
 
 #[tauri::command]
-pub async fn get_lang(window: tauri::Window, lang: String) -> String {
+pub async fn get_lang(window: tauri::Window<R>, lang: String) -> String {
   let lang = lang.to_lowercase();
 
   // Send contents of language file back
   let lang_path: PathBuf = [&install_location(), "lang", &format!("{}.json", lang)]
     .iter()
     .collect();
-  match std::fs::read_to_string(&lang_path) {
+  match std::fs::read_to_string(lang_path) {
     Ok(x) => x,
     Err(e) => {
       emit_lang_err(window, format!("Failed to read language file: {}", e));
@@ -44,7 +44,7 @@ pub async fn get_languages() -> std::collections::HashMap<String, String> {
   languages
 }
 
-pub fn emit_lang_err(window: tauri::Window, msg: String) {
+pub fn emit_lang_err(window: tauri::Window<R>, msg: String) {
   let mut res_hash = std::collections::HashMap::new();
 
   res_hash.insert("error".to_string(), msg);
