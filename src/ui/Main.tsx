@@ -7,7 +7,6 @@ import MainProgressBar from './components/common/MainProgressBar'
 import Options from './components/menu/Options'
 import MiniDialog from './components/MiniDialog'
 import DownloadList from './components/common/DownloadList'
-import Downloads from './components/menu/Downloads'
 import NewsSection from './components/news/NewsSection'
 import Game from './components/menu/Game'
 import RightBar from './components/RightBar'
@@ -17,12 +16,10 @@ import { invoke } from '@tauri-apps/api'
 import { listen } from '@tauri-apps/api/event'
 import { dataDir } from '@tauri-apps/api/path'
 import { appWindow } from '@tauri-apps/api/window'
-import { unpatchGame } from '../utils/metadata'
 import DownloadHandler from '../utils/download'
 
 // Graphics
 import cogBtn from '../resources/icons/cog.svg'
-import downBtn from '../resources/icons/download.svg'
 import wrenchBtn from '../resources/icons/wrench.svg'
 import { ExtrasMenu } from './components/menu/ExtrasMenu'
 
@@ -61,25 +58,6 @@ export class Main extends React.Component<IProps, IState> {
       console.log(payload)
     })
 
-    listen('jar_extracted', ({ payload }: { payload: string }) => {
-      setConfigOption('grasscutter_path', payload)
-    })
-
-    // Emitted for metadata replacing-purposes
-    listen('game_closed', async () => {
-      const wasPatched = await getConfigOption('patch_metadata')
-
-      if (wasPatched) {
-        const unpatched = await unpatchGame()
-
-        if (!unpatched) {
-          alert(
-            `Could not unpatch game! (You should be able to find your metadata backup in ${await dataDir()}\\cultivation\\)`
-          )
-        }
-      }
-    })
-
     let min = false
 
     // periodically check if we need to min/max based on whether the game is open
@@ -87,10 +65,10 @@ export class Main extends React.Component<IProps, IState> {
       const gameOpen = await invoke('is_game_running')
 
       if (gameOpen && !min) {
-        appWindow.minimize()
+        await appWindow.minimize()
         min = true
       } else if (!gameOpen && min) {
-        appWindow.unminimize()
+        await appWindow.unminimize()
         min = false
       }
     }, 1000)
@@ -140,13 +118,6 @@ export class Main extends React.Component<IProps, IState> {
           >
             <img src={cogBtn} alt="settings" />
           </div>
-          <div
-            id="downloadsBtn"
-            className="TopButton"
-            onClick={() => this.setState({ downloadsOpen: !this.state.downloadsOpen })}
-          >
-            <img src={downBtn} alt="downloads" />
-          </div>
           {this.state.migotoSet && (
             <div
               id="modsBtn"
@@ -192,16 +163,6 @@ export class Main extends React.Component<IProps, IState> {
               </MiniDialog>
               <div className="arrow-down"></div>
             </div>
-          ) : null
-        }
-
-        {
-          // Download menu
-          this.state.downloadsOpen ? (
-            <Downloads
-              downloadManager={this.props.downloadHandler}
-              closeFn={() => this.setState({ downloadsOpen: false })}
-            />
           ) : null
         }
 

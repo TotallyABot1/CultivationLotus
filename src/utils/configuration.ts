@@ -5,23 +5,15 @@ let configFilePath: string
 let defaultConfig: Configuration
 ;(async () => {
   defaultConfig = {
-    toggle_grasscutter: false,
     game_install_path: 'C:\\Program Files\\Genshin Impact\\Genshin Impact game\\GenshinImpact.exe',
-    grasscutter_with_game: false,
-    grasscutter_path: '',
     java_path: '',
     close_action: 0,
     startup_launch: false,
-    last_ip: 'localhost',
-    last_port: '443',
     language: 'en',
     customBackground: '',
     cert_generated: false,
     theme: 'default',
-    https_enabled: false,
     debug_enabled: false,
-    patch_metadata: true,
-    use_internal_proxy: true,
     wipe_login: false,
     horny_mode: false,
   }
@@ -31,23 +23,15 @@ let defaultConfig: Configuration
  * 'close_action': 0 = close, 1 = tray
  */
 export interface Configuration {
-  toggle_grasscutter: boolean
   game_install_path: string
-  grasscutter_with_game: boolean
-  grasscutter_path: string
   java_path: string
   close_action: number
   startup_launch: boolean
-  last_ip: string
-  last_port: string
   language: string
   customBackground: string
   cert_generated: boolean
   theme: string
-  https_enabled: boolean
   debug_enabled: boolean
-  patch_metadata: boolean
-  use_internal_proxy: boolean
   wipe_login: boolean
   horny_mode: boolean
   swag_mode?: boolean
@@ -102,7 +86,7 @@ export async function saveConfig(obj: Configuration) {
 async function readConfigFile() {
   const local = await dataDir()
 
-  if (!configFilePath) configFilePath = local + 'cultivation/configuration.json'
+  if (!configFilePath) configFilePath = local + 'cultivation/configuration_lotus.json'
 
   // Ensure Cultivation dir exists
   const dirs = await fs.readDir(local)
@@ -112,18 +96,10 @@ async function readConfigFile() {
     await fs.createDir(local + 'cultivation').catch((e) => console.log(e))
   }
 
-  const innerDirs = await fs.readDir(local + '/cultivation')
-
-  // Create grasscutter dir for potential installation
-  if (!innerDirs.find((fileOrDir) => fileOrDir?.name === 'grasscutter')) {
-    // Create dir
-    await fs.createDir(local + 'cultivation/grasscutter').catch((e) => console.log(e))
-  }
-
   const dataFiles = await fs.readDir(local + 'cultivation')
 
   // Ensure config exists
-  if (!dataFiles.find((fileOrDir) => fileOrDir?.name === 'configuration.json')) {
+  if (!dataFiles.find((fileOrDir) => fileOrDir?.name === 'configuration_lotus.json')) {
     // Create config file
     const file: fs.FsTextFileOption = {
       path: configFilePath,

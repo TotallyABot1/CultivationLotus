@@ -3,18 +3,15 @@ import { invoke } from '@tauri-apps/api'
 import { dataDir } from '@tauri-apps/api/path'
 import DirInput from '../common/DirInput'
 import Menu from './Menu'
-import Tr, { getLanguages, translate } from '../../../utils/language'
+import Tr, { getLanguages } from '../../../utils/language'
 import { setConfigOption, getConfig, getConfigOption, Configuration } from '../../../utils/configuration'
 import Checkbox from '../common/Checkbox'
 import Divider from './Divider'
 import { getThemeList } from '../../../utils/themes'
-import * as server from '../../../utils/server'
 
 import './Options.css'
 import BigButton from '../common/BigButton'
 import DownloadHandler from '../../../utils/download'
-import * as meta from '../../../utils/metadata'
-import HelpButton from '../common/HelpButton'
 import TextInput from '../common/TextInput'
 
 interface IProps {
@@ -24,17 +21,12 @@ interface IProps {
 
 interface IState {
   game_install_path: string
-  grasscutter_path: string
   java_path: string
-  grasscutter_with_game: boolean
   language_options: { [key: string]: string }[]
   current_language: string
   bg_url_or_path: string
   themes: string[]
   theme: string
-  encryption: boolean
-  patch_metadata: boolean
-  use_internal_proxy: boolean
   wipe_login: boolean
   horny_mode: boolean
   swag: boolean
@@ -52,17 +44,12 @@ export default class Options extends React.Component<IProps, IState> {
 
     this.state = {
       game_install_path: '',
-      grasscutter_path: '',
       java_path: '',
-      grasscutter_with_game: false,
       language_options: [],
       current_language: 'en',
       bg_url_or_path: '',
       themes: ['default'],
       theme: '',
-      encryption: false,
-      patch_metadata: false,
-      use_internal_proxy: false,
       wipe_login: false,
       horny_mode: false,
       swag: false,
@@ -75,14 +62,10 @@ export default class Options extends React.Component<IProps, IState> {
     }
 
     this.setGameExecutable = this.setGameExecutable.bind(this)
-    this.setGrasscutterJar = this.setGrasscutterJar.bind(this)
     this.setJavaPath = this.setJavaPath.bind(this)
     this.setAkebi = this.setAkebi.bind(this)
     this.setMigoto = this.setMigoto.bind(this)
-    this.toggleGrasscutterWithGame = this.toggleGrasscutterWithGame.bind(this)
     this.setCustomBackground = this.setCustomBackground.bind(this)
-    this.toggleEncryption = this.toggleEncryption.bind(this)
-    this.restoreMetadata = this.restoreMetadata.bind(this)
   }
 
   async componentDidMount() {
@@ -90,26 +73,16 @@ export default class Options extends React.Component<IProps, IState> {
     const languages = await getLanguages()
     const platform: string = await invoke('get_platform')
 
-    // Remove jar from path
-    const path = config.grasscutter_path.replace(/\\/g, '/')
-    const folderPath = path.substring(0, path.lastIndexOf('/'))
-    const encEnabled = await server.encryptionEnabled(folderPath + '/config.json')
-
     console.log(platform)
 
     this.setState({
       game_install_path: config.game_install_path || '',
-      grasscutter_path: config.grasscutter_path || '',
       java_path: config.java_path || '',
-      grasscutter_with_game: config.grasscutter_with_game || false,
       language_options: languages,
       current_language: config.language || 'en',
       bg_url_or_path: config.customBackground || '',
       themes: (await getThemeList()).map((t) => t.name),
       theme: config.theme || 'default',
-      encryption: await translate(encEnabled ? 'options.enabled' : 'options.disabled'),
-      patch_metadata: config.patch_metadata || false,
-      use_internal_proxy: config.use_internal_proxy || false,
       wipe_login: config.wipe_login || false,
       horny_mode: config.horny_mode || false,
       swag: config.swag_mode || false,
@@ -140,14 +113,6 @@ export default class Options extends React.Component<IProps, IState> {
 
     this.setState({
       game_install_path: value,
-    })
-  }
-
-  setGrasscutterJar(value: string) {
-    setConfigOption('grasscutter_path', value)
-
-    this.setState({
-      grasscutter_path: value,
     })
   }
 
@@ -199,15 +164,6 @@ export default class Options extends React.Component<IProps, IState> {
     window.location.reload()
   }
 
-  async toggleGrasscutterWithGame() {
-    const changedVal = !(await getConfigOption('grasscutter_with_game'))
-    setConfigOption('grasscutter_with_game', changedVal)
-
-    this.setState({
-      grasscutter_with_game: changedVal,
-    })
-  }
-
   async setCustomBackground(value: string) {
     const isUrl = /^(?:http(s)?:\/\/)/gm.test(value)
 
@@ -230,32 +186,6 @@ export default class Options extends React.Component<IProps, IState> {
       await setConfigOption('customBackground', value)
       window.location.reload()
     }
-  }
-
-  async toggleEncryption() {
-    const config = await getConfig()
-
-    // Check if grasscutter path is set
-    if (!config.grasscutter_path) {
-      alert('Grasscutter not set!')
-      return
-    }
-
-    // Remove jar from path
-    const path = config.grasscutter_path.replace(/\\/g, '/')
-    const folderPath = path.substring(0, path.lastIndexOf('/'))
-
-    await server.toggleEncryption(folderPath + '/config.json')
-
-    this.setState({
-      encryption: await translate(
-        (await server.encryptionEnabled(folderPath + '/config.json')) ? 'options.enabled' : 'options.disabled'
-      ),
-    })
-  }
-
-  async restoreMetadata() {
-    await meta.restoreMetadata(this.props.downloadManager)
   }
 
   async installCert() {
@@ -297,43 +227,6 @@ export default class Options extends React.Component<IProps, IState> {
             </div>
           </div>
         )}
-        <div className="OptionSection" id="menuOptionsContainermetaDownload">
-          <div className="OptionLabel" id="menuOptionsLabelmetaDownload">
-            <Tr text="options.recover_metadata" />
-            <HelpButton contents="help.emergency_metadata" />
-          </div>
-          <div className="OptionValue" id="menuOptionsButtonmetaDownload">
-            <BigButton onClick={this.restoreMetadata} id="metaDownload">
-              <Tr text="components.download" />
-            </BigButton>
-          </div>
-        </div>
-        <div className="OptionSection" id="menuOptionsContainerPatchMeta">
-          <div className="OptionLabel" id="menuOptionsLabelPatchMeta">
-            <Tr text="options.patch_metadata" />
-            <HelpButton contents="help.patch_metadata" />
-          </div>
-          <div className="OptionValue" id="menuOptionsCheckboxPatchMeta">
-            <Checkbox
-              onChange={() => this.toggleOption('patch_metadata')}
-              checked={this.state?.patch_metadata}
-              id="patchMeta"
-            />
-          </div>
-        </div>
-        <div className="OptionSection" id="menuOptionsContainerUseProxy">
-          <div className="OptionLabel" id="menuOptionsLabelUseProxy">
-            <Tr text="options.use_proxy" />
-            <HelpButton contents="help.use_proxy" />
-          </div>
-          <div className="OptionValue" id="menuOptionsCheckboxUseProxy">
-            <Checkbox
-              onChange={() => this.toggleOption('use_internal_proxy')}
-              checked={this.state?.use_internal_proxy}
-              id="useProxy"
-            />
-          </div>
-        </div>
         <div className="OptionSection" id="menuOptionsContainerWipeLogin">
           <div className="OptionLabel" id="menuOptionsLabelWipeLogin">
             <Tr text="options.wipe_login" />
@@ -349,25 +242,6 @@ export default class Options extends React.Component<IProps, IState> {
 
         <Divider />
 
-        <div className="OptionSection" id="menuOptionsContainerGCJar">
-          <div className="OptionLabel" id="menuOptionsLabelGCJar">
-            <Tr text="options.grasscutter_jar" />
-          </div>
-          <div className="OptionValue" id="menuOptionsDirGCJar">
-            <DirInput onChange={this.setGrasscutterJar} value={this.state?.grasscutter_path} extensions={['jar']} />
-          </div>
-        </div>
-        <div className="OptionSection" id="menuOptionsContainerToggleEnc">
-          <div className="OptionLabel" id="menuOptionsLabelToggleEnc">
-            <Tr text="options.toggle_encryption" />
-            <HelpButton contents="help.encryption" />
-          </div>
-          <div className="OptionValue" id="menuOptionsButtonToggleEnc">
-            <BigButton onClick={this.toggleEncryption} id="toggleEnc">
-              {this.state.encryption}
-            </BigButton>
-          </div>
-        </div>
         <div className="OptionSection" id="menuOptionsContainerInstallCert">
           <div className="OptionLabel" id="menuOptionsLabelInstallCert">
             <Tr text="options.install_certificate" />
@@ -408,20 +282,6 @@ export default class Options extends React.Component<IProps, IState> {
           </>
         )}
 
-        <Divider />
-
-        <div className="OptionSection" id="menuOptionsContainerGCWGame">
-          <div className="OptionLabel" id="menuOptionsLabelGCWDame">
-            <Tr text="options.grasscutter_with_game" />
-          </div>
-          <div className="OptionValue" id="menuOptionsCheckboxGCWGame">
-            <Checkbox
-              onChange={() => this.toggleOption('grasscutter_with_game')}
-              checked={this.state?.grasscutter_with_game}
-              id="gcWithGame"
-            />
-          </div>
-        </div>
         {this.state.swag ? (
           <div className="OptionSection" id="menuOptionsContainerHorny">
             <div className="OptionLabel" id="menuOptionsLabelHorny">
