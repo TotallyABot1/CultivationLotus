@@ -80,8 +80,8 @@ impl HttpHandler for ProxyHandler {
  */
 pub async fn create_proxy(proxy_port: u16, certificate_path: String) {
   let cert_path = PathBuf::from(certificate_path);
-  let pk_path = cert_path.join("private.key");
-  let ca_path = cert_path.join("cert.crt");
+  let pk_path = cert_path.join("lotus_private.key");
+  let ca_path = cert_path.join("cert_lotus.crt");
 
   // Get the certificate and private key.
   let mut private_key_bytes: &[u8] = &match fs::read(&pk_path) {
@@ -89,7 +89,7 @@ pub async fn create_proxy(proxy_port: u16, certificate_path: String) {
     Ok(b) => b,
     Err(e) => {
       println!("Encountered {}. Regenerating CA cert and retrying...", e);
-      generate_ca_files(&data_dir().unwrap().join("cultivation"));
+      generate_ca_files(&data_dir().unwrap().join("lotusCultivation"));
 
       fs::read(&pk_path).expect("Could not read private key")
     }
@@ -100,7 +100,7 @@ pub async fn create_proxy(proxy_port: u16, certificate_path: String) {
     Ok(b) => b,
     Err(e) => {
       println!("Encountered {}. Regenerating CA cert and retrying...", e);
-      generate_ca_files(&data_dir().unwrap().join("cultivation"));
+      generate_ca_files(&data_dir().unwrap().join("lotusCultivation"));
 
       fs::read(&ca_path).expect("Could not read certificate")
     }
@@ -240,10 +240,10 @@ pub fn generate_ca_files(path: &Path) {
   let mut details = DistinguishedName::new();
 
   // Set certificate details.
-  details.push(DnType::CommonName, "Cultivation");
-  details.push(DnType::OrganizationName, "Grasscutters");
-  details.push(DnType::CountryName, "CN");
-  details.push(DnType::LocalityName, "CN");
+  details.push(DnType::CommonName, "LotusLauncher");
+  details.push(DnType::OrganizationName, "Lotus");
+  details.push(DnType::CountryName, "DE");
+  details.push(DnType::LocalityName, "DE");
 
   // Set details in the parameter.
   params.distinguished_name = details;

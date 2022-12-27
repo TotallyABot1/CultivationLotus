@@ -86,7 +86,7 @@ export class Main extends React.Component<IProps, IState> {
     if (!cert_generated) {
       // Generate the certificate
       await invoke('generate_ca_files', {
-        path: (await dataDir()) + 'cultivation',
+        path: (await dataDir()) + 'lotusCultivation',
       })
 
       await setConfigOption('cert_generated', true)
@@ -138,7 +138,8 @@ export class Main extends React.Component<IProps, IState> {
 
         <RightBar />
 
-        <NewsSection />
+        {/* #### Enable again to add news section #### */}
+        {/*<NewsSection />*/}
 
         {
           // Extras section

@@ -1,19 +1,14 @@
 import React from 'react'
-import Checkbox from './common/Checkbox'
 import BigButton from './common/BigButton'
-import TextInput from './common/TextInput'
-import HelpButton from './common/HelpButton'
-import { getConfig, saveConfig, setConfigOption } from '../../utils/configuration'
+import { getConfig } from '../../utils/configuration'
 import { translate } from '../../utils/language'
 import { invoke } from '@tauri-apps/api/tauri'
 
-import Server from '../../resources/icons/server.svg'
 import Plus from '../../resources/icons/plus.svg'
 
 import './ServerLaunchSection.css'
 import { dataDir } from '@tauri-apps/api/path'
-import { getGameExecutable, getGameVersion } from '../../utils/game'
-import { patchGame, unpatchGame } from '../../utils/metadata'
+import { getGameExecutable } from '../../utils/game'
 
 interface IProps {
   openExtras: (playGame: () => void) => void
@@ -37,7 +32,7 @@ export default class ServerLaunchSection extends React.Component<IProps, IState>
     this.state = {
       buttonLabel: '',
       checkboxLabel: '',
-      ip: 'static.123.83.217.95.clients.your-server.de.',
+      ip: 'static.123.83.217.95.clients.your-server.de',
       port: '2888',
       httpsEnabled: false,
       swag: false,
@@ -81,7 +76,7 @@ export default class ServerLaunchSection extends React.Component<IProps, IState>
       addr: (this.state.httpsEnabled ? 'https' : 'http') + '://' + this.state.ip + ':' + this.state.port,
     })
     // Connect to proxy
-    await invoke('connect', { port: 8365, certificatePath: (await dataDir()) + '\\cultivation\\ca' })
+    await invoke('connect', { port: 8365, certificatePath: (await dataDir()) + '\\lotusCultivation\\ca' })
 
     if (config.wipe_login) {
       // First wipe registry if we have to

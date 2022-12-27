@@ -86,17 +86,19 @@ export async function saveConfig(obj: Configuration) {
 async function readConfigFile() {
   const local = await dataDir()
 
-  if (!configFilePath) configFilePath = local + 'cultivation/configuration_lotus.json'
+  if (!configFilePath) {
+    configFilePath = local + 'lotusCultivation/configuration_lotus.json'
+  }
 
   // Ensure Cultivation dir exists
   const dirs = await fs.readDir(local)
 
-  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'cultivation')) {
+  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'lotusCultivation')) {
     // Create dir
-    await fs.createDir(local + 'cultivation').catch((e) => console.log(e))
+    await fs.createDir(local + 'lotusCultivation').catch((e) => console.log(e))
   }
 
-  const dataFiles = await fs.readDir(local + 'cultivation')
+  const dataFiles = await fs.readDir(local + 'lotusCultivation')
 
   // Ensure config exists
   if (!dataFiles.find((fileOrDir) => fileOrDir?.name === 'configuration_lotus.json')) {

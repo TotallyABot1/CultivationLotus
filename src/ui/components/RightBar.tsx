@@ -3,11 +3,13 @@ import React from 'react'
 
 import Discord from '../../resources/icons/discord.svg'
 import Github from '../../resources/icons/github.svg'
+import Game from '../../resources/icons/game.svg'
 
 import './RightBar.css'
 
-const DISCORD = 'https://discord.gg/T5vZU6UyeG'
-const GITHUB = 'https://github.com/Grasscutters/Grasscutter'
+const DISCORD = 'https://discord.gg/NJfdSw3u'
+const GITHUB = 'https://github.com/TotallyABot1/CultivationLotus'
+const WEBSITE = 'https://lotus-genshin.online/'
 
 export default class RightBar extends React.Component {
   openInBrowser(url: string) {
@@ -23,6 +25,9 @@ export default class RightBar extends React.Component {
           </div>
           <div className="BarGithub BarImg" id="rightBarButtonGithub" onClick={() => this.openInBrowser(GITHUB)}>
             <img src={Github} />
+          </div>
+          <div className="BarWebsite BarImg" id="rightBarButtonWebsite" onClick={() => this.openInBrowser(WEBSITE)}>
+            <img src={Game} />
           </div>
         </div>
       </div>
