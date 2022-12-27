@@ -12,12 +12,12 @@
   "tauri": {
     "allowlist": {
       "fs": {
-        "scope": ["$DATA", "$DATA/cultivation", "$DATA/cultivation/*"]
+        "scope": ["$DATA", "$DATA/LotusCultivation", "$DATA/LotusCultivation/*"]
       },
       "protocol": {
         "all": true,
         "asset": true,
-        "assetScope": ["$DATA", "$DATA/cultivation", "$DATA/cultivation/*"]
+        "assetScope": ["$DATA", "$DATA/LotusCultivation", "$DATA/LotusCultivation/*"]
       },
       "all": true
     },
