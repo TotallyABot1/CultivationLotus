@@ -173,12 +173,12 @@ export default class Options extends React.Component<IProps, IState> {
       const filename = value.replace(/\\/g, '/').split('/').pop()
       const localBgPath = ((await dataDir()) as string).replace(/\\/g, '/')
 
-      await setConfigOption('customBackground', `${localBgPath}/LotusCultivation/bg/${filename}`)
+      await setConfigOption('customBackground', `${localBgPath}/lotusCultivation/bg/${filename}`)
 
       // Copy the file over to the local directory
       await invoke('copy_file', {
         path: value.replace(/\\/g, '/'),
-        newPath: `${localBgPath}LotusCultivation/bg/`,
+        newPath: `${localBgPath}lotusCultivation/bg/`,
       })
 
       window.location.reload()

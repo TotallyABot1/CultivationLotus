@@ -2,7 +2,6 @@
   all(not(debug_assertions), target_os = "windows"),
   windows_subsystem = "windows"
 )]
-#![deny(clippy::all, unused)]
 
 use file_helpers::dir_exists;
 use once_cell::sync::Lazy;
@@ -16,7 +15,6 @@ use tauri::async_runtime::block_on;
 use std::thread;
 use sysinfo::{System, SystemExt};
 
-#[cfg(windows)]
 use crate::admin::reopen_as_admin;
 
 mod admin;
@@ -42,8 +40,8 @@ fn has_arg(args: &[String], arg: &str) -> bool {
 
 async fn arg_handler(args: &[String]) {
   if has_arg(args, "--proxy") {
-    let mut pathbuf = data_dir().unwrap();
-    pathbuf.push("LotusCultivation");
+    let mut pathbuf = tauri::api::path::data_dir().unwrap();
+    pathbuf.push("lotusCultivation");
     pathbuf.push("ca");
 
     connect(8035, pathbuf.to_str().unwrap().to_string()).await;
@@ -58,7 +56,6 @@ fn main() {
     println!("You running as a non-elevated user. Some stuff will almost definitely not work.");
     println!("===============================================================================");
 
-    #[cfg(windows)]
     reopen_as_admin();
   }
 
@@ -66,11 +63,11 @@ fn main() {
   if !dir_exists(
     data_dir()
       .unwrap()
-      .join("LotusCultivation")
+      .join("lotusCultivation")
       .to_str()
       .unwrap(),
   ) {
-    fs::create_dir_all(data_dir().unwrap().join("LotusCultivation")).unwrap();
+    fs::create_dir_all(&data_dir().unwrap().join("lotusCultivation")).unwrap();
   }
 
   // Always set CWD to the location of the executable.
