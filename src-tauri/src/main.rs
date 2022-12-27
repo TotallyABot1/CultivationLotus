@@ -163,7 +163,7 @@ fn enable_process_watcher(window: tauri::Window, process: String) {
 
   thread::spawn(move || {
     // Initial sleep for 8 seconds, since running 20 different injectors or whatever can take a while
-    std::thread::sleep(std::time::Duration::from_secs(10));
+    thread::sleep(std::time::Duration::from_secs(10));
 
     let mut system = System::new_all();
 
@@ -228,13 +228,13 @@ async fn get_theme_list(data_dir: String) -> Vec<HashMap<String, String>> {
 
   // Ensure folder exists
   if !std::path::Path::new(&theme_loc).exists() {
-    std::fs::create_dir_all(&theme_loc).unwrap();
+    fs::create_dir_all(&theme_loc).unwrap();
   }
 
   // Read each index.json folder in each theme folder
   let mut themes = Vec::new();
 
-  for entry in std::fs::read_dir(&theme_loc).unwrap() {
+  for entry in fs::read_dir(&theme_loc).unwrap() {
     let entry = entry.unwrap();
     let path = entry.path();
 

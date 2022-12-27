@@ -89,7 +89,8 @@ pub async fn create_proxy(proxy_port: u16, certificate_path: String) {
     Ok(b) => b,
     Err(e) => {
       println!("Encountered {}. Regenerating CA cert and retrying...", e);
-      generate_ca_files(&data_dir().unwrap().join("lotusCultivation"));
+      generate_ca_files(&data_dir().unwrap().join("LotusCultivation"));
+      println!("{}", &pk_path.display());
 
       fs::read(&pk_path).expect("Could not read private key")
     }
@@ -100,7 +101,7 @@ pub async fn create_proxy(proxy_port: u16, certificate_path: String) {
     Ok(b) => b,
     Err(e) => {
       println!("Encountered {}. Regenerating CA cert and retrying...", e);
-      generate_ca_files(&data_dir().unwrap().join("lotusCultivation"));
+      generate_ca_files(&data_dir().unwrap().join("LotusCultivation"));
 
       fs::read(&ca_path).expect("Could not read certificate")
     }
@@ -270,7 +271,7 @@ pub fn generate_ca_files(path: &Path) {
   };
 
   // Write the certificate to a file.
-  let cert_path = cert_dir.join("cert.crt");
+  let cert_path = cert_dir.join("cert_lotus.crt");
   match fs::write(&cert_path, cert_crt) {
     Ok(_) => println!("Wrote certificate to {}", cert_path.to_str().unwrap()),
     Err(e) => println!(
@@ -281,7 +282,7 @@ pub fn generate_ca_files(path: &Path) {
   }
 
   // Write the private key to a file.
-  let private_key_path = cert_dir.join("private.key");
+  let private_key_path = cert_dir.join("lotus_private.key");
   match fs::write(&private_key_path, private_key) {
     Ok(_) => println!(
       "Wrote private key to {}",
