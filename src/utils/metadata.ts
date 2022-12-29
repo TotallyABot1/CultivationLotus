@@ -181,7 +181,7 @@ export async function getGameMetadataPath() {
 }
 
 export async function getBackupMetadataPath() {
-  return (await dataDir()) + 'lotusCultivation\\metadata'
+  return (await dataDir()) + 'LotusCultivation\\metadata'
 }
 
 export async function globalMetadataLink() {

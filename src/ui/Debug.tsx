@@ -15,7 +15,7 @@ async function setProxyAddress(address: string) {
 }
 
 async function startProxy() {
-  await invoke('connect', { port: 2222, certificatePath: (await dataDir()) + '\\lotusCultivation\\ca' })
+  await invoke('connect', { port: 2222, certificatePath: (await dataDir()) + '\\LotusCultivation\\ca' })
   await invoke('open_in_browser', { url: 'https://hoyoverse.com' })
 }
 
@@ -24,12 +24,12 @@ async function stopProxy() {
 }
 
 async function generateCertificates() {
-  await invoke('generate_ca_files', { path: (await dataDir()) + '\\lotusCultivation' })
+  await invoke('generate_ca_files', { path: (await dataDir()) + '\\LotusCultivation' })
 }
 
 async function generateInfo() {
   console.log({
-    certificatePath: (await dataDir()) + '\\lotusCultivation\\ca',
+    certificatePath: (await dataDir()) + '\\LotusCultivation\\ca',
     isAdmin: await invoke('is_elevated'),
     connectingTo: proxyAddress,
   })

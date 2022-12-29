@@ -40,7 +40,7 @@ const defaultTheme = {
 export async function getThemeList() {
   // Do some invoke to backend to get the theme list
   const themes = (await invoke('get_theme_list', {
-    dataDir: `${await dataDir()}/lotusCultivation`,
+    dataDir: `${await dataDir()}/LotusCultivation`,
   })) as BackendThemeList[]
   const list: ThemeList[] = [
     // ALWAYS include default theme
@@ -119,7 +119,7 @@ export async function loadTheme(theme: ThemeList, document: Document) {
 
   // Set custom background
   if (theme.customBackgroundPath) {
-    const bgPath = (await dataDir()).replace(/\\/g, '/') + 'lotusCultivation/bg/'
+    const bgPath = (await dataDir()).replace(/\\/g, '/') + 'LotusCultivation/bg/'
     const imageName = theme.customBackgroundPath.split('/').pop()
 
     // Save the background to our data dir

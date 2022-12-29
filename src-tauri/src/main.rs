@@ -41,7 +41,7 @@ fn has_arg(args: &[String], arg: &str) -> bool {
 async fn arg_handler(args: &[String]) {
   if has_arg(args, "--proxy") {
     let mut pathbuf = tauri::api::path::data_dir().unwrap();
-    pathbuf.push("lotusCultivation");
+    pathbuf.push("LotusCultivation");
     pathbuf.push("ca");
 
     connect(8035, pathbuf.to_str().unwrap().to_string()).await;
@@ -63,11 +63,11 @@ fn main() {
   if !dir_exists(
     data_dir()
       .unwrap()
-      .join("lotusCultivation")
+      .join("LotusCultivation")
       .to_str()
       .unwrap(),
   ) {
-    fs::create_dir_all(&data_dir().unwrap().join("lotusCultivation")).unwrap();
+    fs::create_dir_all(&data_dir().unwrap().join("LotusCultivation")).unwrap();
   }
 
   // Always set CWD to the location of the executable.

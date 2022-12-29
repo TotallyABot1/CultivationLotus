@@ -87,18 +87,18 @@ async function readConfigFile() {
   const local = await dataDir()
 
   if (!configFilePath) {
-    configFilePath = local + 'lotusCultivation/configuration_lotus.json'
+    configFilePath = local + 'LotusCultivation/configuration_lotus.json'
   }
 
   // Ensure Cultivation dir exists
   const dirs = await fs.readDir(local)
 
-  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'lotusCultivation')) {
+  if (!dirs.find((fileOrDir) => fileOrDir?.name === 'LotusCultivation')) {
     // Create dir
-    await fs.createDir(local + 'lotusCultivation').catch((e) => console.log(e))
+    await fs.createDir(local + 'LotusCultivation').catch((e) => console.log(e))
   }
 
-  const dataFiles = await fs.readDir(local + 'lotusCultivation')
+  const dataFiles = await fs.readDir(local + 'LotusCultivation')
 
   // Ensure config exists
   if (!dataFiles.find((fileOrDir) => fileOrDir?.name === 'configuration_lotus.json')) {
