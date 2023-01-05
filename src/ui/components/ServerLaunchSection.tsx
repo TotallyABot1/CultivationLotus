@@ -32,7 +32,7 @@ export default class ServerLaunchSection extends React.Component<IProps, IState>
     this.state = {
       buttonLabel: '',
       checkboxLabel: '',
-      ip: 'static.123.83.217.95.clients.your-server.de',
+      ip: '65.109.57.164',
       port: '2888',
       httpsEnabled: false,
       swag: false,
@@ -50,7 +50,7 @@ export default class ServerLaunchSection extends React.Component<IProps, IState>
 
     this.setState({
       buttonLabel: await translate('main.launch_button'),
-      ip: 'static.123.83.217.95.clients.your-server.de.',
+      ip: '65.109.57.164',
       port: '2888',
       httpsEnabled: false,
       swag: config.swag_mode || false,
