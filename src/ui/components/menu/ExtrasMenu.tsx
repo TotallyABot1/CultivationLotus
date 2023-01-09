@@ -1,5 +1,5 @@
 import React from 'react'
-import { getConfig, saveConfig } from '../../../utils/configuration'
+import { getConfig, saveConfig, setConfigOption } from '../../../utils/configuration'
 import Checkbox from '../common/Checkbox'
 import Menu from './Menu'
 
@@ -12,7 +12,7 @@ import { getGameExecutable } from '../../../utils/game'
 interface IProps {
   children: React.ReactNode | React.ReactNode[]
   closeFn: () => void
-  playGame: (exe?: string, proc_name?: string) => void
+  playWhichGame: (exe?: string, proc_name?: string) => void
 }
 
 interface IState {
@@ -86,7 +86,7 @@ export class ExtrasMenu extends React.Component<IProps, IState> {
     }
 
     // Launch the game
-    await this.props.playGame()
+    await this.props.playWhichGame()
   }
 
   async launchAkebi() {
@@ -96,7 +96,7 @@ export class ExtrasMenu extends React.Component<IProps, IState> {
     const pathArr = config.game_install_path.replace(/\\/g, '/').split('/')
     const gameExec = pathArr[pathArr.length - 1]
 
-    await this.props.playGame(config.akebi_path, gameExec)
+    await this.props.playWhichGame(config.akebi_path, gameExec)
   }
 
   async launchMigoto() {
@@ -125,7 +125,7 @@ export class ExtrasMenu extends React.Component<IProps, IState> {
     })
   }
 
-  toggleAkebi() {
+  async toggleAkebi() {
     this.setState({
       launch_akebi: !this.state.launch_akebi,
     })

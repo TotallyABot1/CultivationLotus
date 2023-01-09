@@ -14,6 +14,7 @@
     "enabled": "Iespējots",
     "disabled": "Atspējots",
     "game_executable": "Iestatīt spēles izpildāmu",
+    "shortcut_path": "Spēles saīsne",
     "grasscutter_jar": "Iestatiet Grasscutter JAR",
     "toggle_encryption": "Pārslēgt Šifrēšanu",
     "java_path": "Iestatiet pielāgotu Java ceļu",

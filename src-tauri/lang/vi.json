@@ -14,6 +14,7 @@
     "enabled": "Bật",
     "disabled": "Tắt",
     "game_path": "Đường dẫn cài game",
+    "shortcut_path": "Phím tắt trò chơi",
     "game_command": "Lệnh khởi chạy game",
     "game_executable": "Tập tin thực thi game",
     "recover_metadata": "Khôi phục metadata khẩn cấp",

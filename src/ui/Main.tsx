@@ -35,7 +35,7 @@ interface IState {
   gameDownloadsOpen: boolean
   extrasOpen: boolean
   migotoSet: boolean
-  playGame: (exe?: string, proc_name?: string) => void
+  playWhichGame: (exe?: string, proc_name?: string, shortcut?: string) => void
 }
 
 export class Main extends React.Component<IProps, IState> {
@@ -49,7 +49,7 @@ export class Main extends React.Component<IProps, IState> {
       gameDownloadsOpen: false,
       extrasOpen: false,
       migotoSet: false,
-      playGame: () => {
+      playWhichGame: () => {
         alert('Error launching game')
       },
     }
@@ -100,10 +100,10 @@ export class Main extends React.Component<IProps, IState> {
     }, 1000)
   }
 
-  async openExtrasMenu(playGame: () => void) {
+  async openExtrasMenu(playWhichGame: () => void) {
     this.setState({
       extrasOpen: true,
-      playGame,
+      playWhichGame,
     })
   }
 
@@ -144,7 +144,7 @@ export class Main extends React.Component<IProps, IState> {
         {
           // Extras section
           this.state.extrasOpen && (
-            <ExtrasMenu closeFn={() => this.setState({ extrasOpen: false })} playGame={this.state.playGame}>
+            <ExtrasMenu closeFn={() => this.setState({ extrasOpen: false })} playWhichGame={this.state.playWhichGame}>
               Yo
             </ExtrasMenu>
           )

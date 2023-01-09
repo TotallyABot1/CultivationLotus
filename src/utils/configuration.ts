@@ -24,6 +24,7 @@ let defaultConfig: Configuration
  */
 export interface Configuration {
   game_install_path: string
+  game_shortcut_path?: string
   java_path: string
   close_action: number
   startup_launch: boolean

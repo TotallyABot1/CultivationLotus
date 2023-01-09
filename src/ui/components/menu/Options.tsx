@@ -21,6 +21,7 @@ interface IProps {
 
 interface IState {
   game_install_path: string
+  game_shortcut_path: string
   java_path: string
   language_options: { [key: string]: string }[]
   current_language: string
@@ -44,6 +45,7 @@ export default class Options extends React.Component<IProps, IState> {
 
     this.state = {
       game_install_path: '',
+      game_shortcut_path: '',
       java_path: '',
       language_options: [],
       current_language: 'en',
@@ -77,6 +79,7 @@ export default class Options extends React.Component<IProps, IState> {
 
     this.setState({
       game_install_path: config.game_install_path || '',
+      game_shortcut_path: config.game_shortcut_path || '',
       java_path: config.java_path || '',
       language_options: languages,
       current_language: config.language || 'en',
@@ -113,6 +116,13 @@ export default class Options extends React.Component<IProps, IState> {
 
     this.setState({
       game_install_path: value,
+    })
+  }
+
+  setGameShortcut(value: string) {
+    setConfigOption('game_shortcut_path', value)
+    this.setState({
+      game_shortcut_path: value,
     })
   }
 
@@ -227,6 +237,14 @@ export default class Options extends React.Component<IProps, IState> {
             </div>
           </div>
         )}
+        <div className="OptionSection" id="menuOptionsContainerGameShortcut">
+          <div className="OptionLabel" id="menuOptionsLabelGameShortcut">
+            <Tr text="options.shortcut_path" />
+          </div>
+          <div className="OptionValue" id="menuShortcutPath">
+            <DirInput onChange={this.setGameShortcut} value={this.state?.game_shortcut_path} extensions={['lnk']} />
+          </div>
+        </div>
         <div className="OptionSection" id="menuOptionsContainerWipeLogin">
           <div className="OptionLabel" id="menuOptionsLabelWipeLogin">
             <Tr text="options.wipe_login" />

@@ -14,6 +14,7 @@
     "enabled": "Ingeschakeld",
     "disabled": "Uitgeschakeld",
     "game_path": "Spel Installatie Pad Instellen",
+    "shortcut_path": "Spel snelkoppeling",
     "game_executable": "Stel De Exe Van Het Spel In",
     "recover_metadata": "Noodherstel Van De Metadata",
     "grasscutter_jar": "Stel De Grasscutter JAR In",

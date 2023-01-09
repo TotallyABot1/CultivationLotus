@@ -14,6 +14,7 @@
     "enabled": "已启用",
     "disabled": "已禁用",
     "game_path": "选择游戏安装路径",
+    "shortcut_path": "選擇遊戲安裝路徑",
     "game_command": "启动游戏的命令行",
     "game_executable": "选择游戏可执行文件",
     "recover_metadata": "紧急情况下恢复元数据文件",

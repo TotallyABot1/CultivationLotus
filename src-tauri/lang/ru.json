@@ -14,6 +14,7 @@
     "enabled": "Включено",
     "disabled": "Выключено",
     "game_path": "Установить путь к файлам игры",
+    "shortcut_path": "Ярлык игры",
     "game_executable": "Установить исполняемый файл игры",
     "recover_metadata": "Принудительное восстановление Метаданных",
     "grasscutter_jar": "Установить Grasscutter JAR",

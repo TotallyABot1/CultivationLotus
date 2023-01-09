@@ -14,6 +14,7 @@
     "enabled": "Activado",
     "disabled": "Desactivado",
     "game_path": "Ruta de instalación del juego",
+    "shortcut_path": "Atajo del juego",
     "game_executable": "Establecer ejecutable del juego",
     "recover_metadata": "Recuperación de Metadatos de Emergencia",
     "grasscutter_jar": "Establecer JAR de Grasscutter",
